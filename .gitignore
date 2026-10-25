@@ -19,3 +19,6 @@ node_modules/
 branding/cipherchat-promo/qa/
 branding/cipherchat-promo/check*.json
 branding/cipherchat-promo/check*.err
+
+# Kotlin compiler daemon logs
+.kotlin/
