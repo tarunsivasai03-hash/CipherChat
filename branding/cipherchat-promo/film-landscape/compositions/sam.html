@@ -1,0 +1,232 @@
+<template>
+  <style>
+    @font-face { font-family: "AppSerif"; src: local("Georgia"); }
+    #root { position: absolute; inset: 0; overflow: hidden; background: transparent; font-family: "Roboto", sans-serif; color: #141413; }
+    #s-world { position: absolute; inset: 0; background: #faf9f5; overflow: hidden; }
+    .s-blob { position: absolute; border-radius: 50%; }
+    #s-title { position: absolute; left: 110px; top: 360px; width: 680px; font-size: 112px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+    #s-title span { display: inline-block; margin-right: 0.24em; }
+    #s-title2 { position: absolute; left: 110px; top: 360px; width: 680px; font-size: 112px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+
+    #s-stage { position: absolute; left: 836px; top: 80px; width: 1080px; height: 1000px; transform: scale(0.92); transform-origin: 0 0;
+      overflow: hidden; border-radius: 54px; background: rgba(255,255,255,0.45); border: 1px solid #d1cfc5; }
+    #s-inner { position: absolute; left: 0; top: -330px; width: 1080px; height: 1920px; }
+
+    #s-header { position: absolute; left: 0; top: 330px; width: 1080px; height: 190px; background: rgba(255,255,255,0.74);
+      backdrop-filter: blur(26px); border-bottom: 1px solid #d1cfc5; z-index: 5; }
+    .s-avatar { position: absolute; left: 112px; top: 40px; width: 96px; height: 96px; border-radius: 24px; background: #e3dacc;
+      display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 600; }
+    .s-name { position: absolute; left: 232px; top: 40px; font-size: 44px; font-weight: 600; }
+    .s-chip { position: absolute; left: 232px; top: 106px; height: 44px; padding: 0 14px; border-radius: 8px; background: #e3dacc; color: #141413;
+      font-size: 28px; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+    .s-icon { position: absolute; width: 52px; height: 52px; }
+
+    .bub { position: absolute; padding: 22px 32px 20px; font-family: "AppSerif", Georgia, serif; font-size: 46px; line-height: 1.25; }
+    .bub-in { left: 48px; background: rgba(255,255,255,0.74); border: 1px solid #d1cfc5; border-radius: 44px 44px 44px 10px; }
+    .bub-out { right: 48px; background: #141413; border-radius: 44px 44px 10px 44px; color: #faf9f5; }
+    .bub .t { display: block; text-align: right; font-family: "Roboto", sans-serif; font-size: 28px; opacity: 0.6; margin-top: 4px; }
+
+    #s-coded { position: absolute; left: 48px; top: 676px; width: 520px; height: 360px; z-index: 3; }
+    #s-codedbg { position: absolute; inset: 0; background: rgba(255,255,255,0.86); border: 1px solid #d1cfc5; border-radius: 44px 44px 44px 10px; }
+    #s-cchip { position: absolute; left: 32px; top: 22px; height: 40px; padding: 0 12px; border-radius: 8px; background: #e8e6dc;
+      font-size: 28px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+    #s-ctime { position: absolute; right: 32px; top: 30px; font-size: 28px; color: #5e5d59; }
+    #s-ctext { position: absolute; left: 32px; top: 78px; font-family: "JetBrains Mono", monospace; font-size: 52px; white-space: pre; }
+    #s-panel { position: absolute; left: 24px; top: 168px; width: 472px; height: 168px; border-radius: 16px; background: rgba(20,20,19,0.08); }
+    #s-plabel { position: absolute; left: 24px; top: 18px; font-size: 28px; color: #5e5d59; }
+    #s-ptext { position: absolute; left: 24px; top: 60px; font-family: "AppSerif", Georgia, serif; font-size: 58px; white-space: pre; }
+
+    #s-composer { position: absolute; left: 32px; top: 1170px; width: 1016px; height: 150px; border-radius: 56px; z-index: 4;
+      background: rgba(255,255,255,0.74); backdrop-filter: blur(26px); border: 1px solid #d1cfc5; }
+    .s-box { position: absolute; top: 20px; width: 110px; height: 110px; border-radius: 30px; display: flex; align-items: center; justify-content: center; }
+
+    #s-scrim { position: absolute; inset: 0; background: rgba(0,0,0,0.32); z-index: 6; }
+    #s-sheet { position: absolute; left: 0; top: 760px; width: 1080px; height: 1160px; background: rgba(250,249,245,0.97);
+      border-radius: 56px 56px 0 0; z-index: 7; }
+    .s-handle { position: absolute; left: 500px; top: 22px; width: 80px; height: 10px; border-radius: 5px; background: #d1cfc5; }
+    .s-preview { position: absolute; left: 48px; top: 60px; width: 984px; height: 96px; border-radius: 24px; background: #ffffff;
+      border: 1px solid #d1cfc5; font-family: "JetBrains Mono", monospace; font-size: 44px; display: flex; align-items: center; padding-left: 28px; }
+    .s-reacts { position: absolute; left: 48px; top: 176px; display: flex; gap: 31px; }
+    .s-react { width: 172px; height: 120px; border-radius: 24px; background: rgba(255,255,255,0.7); border: 1px solid #d1cfc5;
+      display: flex; align-items: center; justify-content: center; font-size: 56px; }
+    .s-row { position: absolute; left: 32px; width: 1016px; height: 80px; border-radius: 24px; display: flex; align-items: center; gap: 32px;
+      padding-left: 28px; font-size: 38px; font-weight: 600; }
+
+    #s-dialog { position: absolute; left: 80px; top: 470px; width: 920px; height: 700px; border-radius: 56px; background: #faf9f5; z-index: 8;
+      box-shadow: 0 2px 2px rgba(0,0,0,0.03), 0 4px 4px rgba(0,0,0,0.05), 0 16px 48px rgba(0,0,0,0.18); }
+    .d-title { position: absolute; left: 56px; top: 56px; font-size: 52px; font-weight: 600; }
+    .d-body { position: absolute; left: 56px; top: 140px; width: 800px; font-family: "AppSerif", Georgia, serif; font-size: 34px; line-height: 1.35; color: #5e5d59; }
+    .d-chips { position: absolute; left: 56px; top: 290px; display: flex; gap: 14px; }
+    .chip { height: 76px; padding: 0 30px; border-radius: 16px; display: flex; align-items: center; font-size: 32px; font-weight: 500;
+      background: rgba(255,255,255,0.55); border: 1px solid #d1cfc5; }
+    .chip.sel { background: #141413; border-color: #141413; color: #faf9f5; }
+    #d-key { position: absolute; left: 56px; top: 400px; width: 808px; height: 110px; border: 2px solid #d1cfc5; border-radius: 24px; }
+    #d-keyfocus { position: absolute; left: 56px; top: 400px; width: 808px; height: 110px; border: 4px solid #141413; border-radius: 24px; }
+    .d-lab { position: absolute; left: 30px; top: 12px; font-size: 28px; color: #5e5d59; }
+    #d-val { position: absolute; left: 30px; top: 46px; font-size: 44px; }
+    .d-help { position: absolute; left: 86px; top: 524px; font-size: 28px; color: #5e5d59; }
+    .d-btn { position: absolute; top: 596px; font-size: 38px; font-weight: 600; padding: 10px 20px; border-radius: 16px; }
+
+    #s-finger { position: absolute; left: 0; top: 0; width: 84px; height: 84px; border-radius: 50%; background: rgba(20,20,19,0.20);
+      border: 3px solid rgba(255,255,255,0.95); box-shadow: 0 8px 26px rgba(0,0,0,0.30); z-index: 9; }
+  </style>
+
+  <div id="root" data-composition-id="sam" data-width="1920" data-height="1080">
+    <div id="s-world">
+      <div class="s-blob" id="s-b1" style="left:-380px;top:-320px;width:1300px;height:1300px;background:radial-gradient(circle,rgba(227,218,204,0.95),rgba(227,218,204,0) 70%)"></div>
+      <div class="s-blob" id="s-b2" style="left:1100px;top:300px;width:1200px;height:1200px;background:radial-gradient(circle,rgba(234,223,203,0.9),rgba(234,223,203,0) 70%)"></div>
+      <div class="s-blob" style="left:200px;top:500px;width:1100px;height:1100px;background:radial-gradient(circle,rgba(46,204,143,0.16),rgba(46,204,143,0) 70%)"></div>
+
+      <div id="s-zoom" style="position:absolute;inset:0">
+        <div id="s-title"><span>Sam</span><span>gets</span><span>a</span><span style="color:#0b7a55">puzzle</span></div>
+        <div id="s-title2">Key 3<br>cracks it</div>
+
+        <div id="s-stage"><div id="s-inner">
+        <div class="bub bub-in" style="top:526px" data-layout-allow-overlap>Yes! Where?<span class="t">19:03</span></div>
+
+        <div id="s-coded" data-layout-allow-overlap>
+          <div id="s-codedbg"></div>
+          <div id="s-cchip"><svg width="22" height="22" viewBox="0 0 24 24"><path fill="#141413" d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3 1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>Educational cipher</div>
+          <div id="s-ctime">19:04</div>
+          <div id="s-ctext">Phhw dw 7</div>
+          <div id="s-panel"><div id="s-plabel">Decoded on this device</div><div id="s-ptext">Phhw dw 7</div></div>
+        </div>
+
+        <div id="s-header" data-layout-allow-occlusion>
+          <svg class="s-icon" style="left:36px;top:46px" viewBox="0 0 24 24"><path fill="#141413" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+          <div class="s-avatar">MR</div>
+          <div class="s-name">Maya Ross</div>
+          <div class="s-chip">
+            <svg width="22" height="22" viewBox="0 0 24 24"><path fill="#141413" d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h1.9c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm0 12H6V10h12v10z"/></svg>Not end-to-end encrypted
+          </div>
+          <svg class="s-icon" style="right:40px;top:46px" viewBox="0 0 24 24"><path fill="#141413" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        </div>
+
+        <div id="s-composer">
+          <div class="s-box" style="left:20px"><svg width="54" height="54" viewBox="0 0 24 24"><path fill="#5e5d59" d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3 1 9l11 6 9-4.91V17h2V9L12 3z"/></svg></div>
+          <div style="position:absolute;left:160px;top:46px;font-family:'AppSerif',Georgia,serif;font-size:44px;color:#5e5d59">Message</div>
+          <div class="s-box" style="right:20px;background:rgba(20,20,19,0.10)"><svg width="54" height="54" viewBox="0 0 24 24"><path fill="#5e5d59" d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg></div>
+        </div>
+
+      <div id="s-scrim" data-layout-allow-occlusion></div>
+      <div id="s-sheet" data-layout-allow-occlusion>
+        <div class="s-handle"></div>
+        <div class="s-preview">Phhw dw 7</div>
+        <div class="s-reacts"><div class="s-react">👍</div><div class="s-react">❤️</div><div class="s-react">😂</div><div class="s-react">😮</div><div class="s-react">🙏</div></div>
+        <div class="s-row" style="top:320px"><svg width="44" height="44" viewBox="0 0 24 24"><path fill="#141413" d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>Reply</div>
+        <div class="s-row" style="top:400px"><svg width="44" height="44" viewBox="0 0 24 24"><path fill="#141413" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>Copy</div>
+        <div class="s-row" id="s-decoderow" style="top:480px"><svg width="44" height="44" viewBox="0 0 24 24"><path fill="#141413" d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h1.9c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm0 12H6V10h12v10z"/></svg>Decode…</div>
+      </div>
+
+      <div id="s-dialog" data-layout-allow-occlusion>
+        <div class="d-title">Decode message</div>
+        <div class="d-body">Decoding happens on this device. The key is not stored or sent.</div>
+        <div class="d-chips"><div class="chip sel">Caesar</div><div class="chip">Vigenère</div><div class="chip">ROT13</div></div>
+        <div id="d-key"><div class="d-lab">Key</div><div id="d-val"></div></div>
+        <div id="d-keyfocus"></div>
+        <div class="d-help">Whole number, e.g. 3 (negative allowed)</div>
+        <div class="d-btn" style="right:250px;color:#5e5d59">Cancel</div>
+        <div class="d-btn" id="d-decode" style="right:40px">Decode</div>
+      </div>
+
+      <div id="s-finger"></div>
+      </div></div></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const DUR = 8.0;
+      const CODED = "Phhw dw 7";
+      function shift(ch, k) {
+        const c = ch.charCodeAt(0);
+        if (c >= 65 && c <= 90) return String.fromCharCode(((c - 65 + k) % 26 + 26) % 26 + 65);
+        if (c >= 97 && c <= 122) return String.fromCharCode(((c - 97 + k) % 26 + 26) % 26 + 97);
+        return ch;
+      }
+      // Caesar -3, one letter after another: each letter steps back through its real shifts.
+      function decoded(t) {
+        let out = "";
+        for (let i = 0; i < CODED.length; i++) {
+          const local = (t - 5.8 - i * 0.07) / 0.09;
+          out += shift(CODED[i], -Math.max(0, Math.min(3, Math.floor(local))));
+        }
+        return out;
+      }
+      const ptext = document.getElementById("s-ptext");
+      const dval = document.getElementById("d-val");
+      function render(t) {
+        ptext.textContent = decoded(t);
+        dval.textContent = t >= 4.7 ? "3" : "";
+      }
+      const proxy = { t: 0 };
+      tl.to(proxy, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(proxy.t) }, 0);
+
+      // Whip in from the right, same speed and ease as Maya's whip out.
+      tl.fromTo("#s-world", { x: 1920, filter: "blur(18px)" }, { x: 0, filter: "blur(0px)", duration: 0.35, ease: "power3.inOut" }, 0);
+      tl.fromTo("#s-b1", { x: 0 }, { x: 140, duration: DUR, ease: "none" }, 0);
+      tl.fromTo("#s-b2", { y: 0 }, { y: -80, duration: DUR, ease: "none" }, 0);
+
+      // Overlays start hidden.
+      tl.set("#s-scrim, #s-sheet, #s-dialog, #d-keyfocus, #s-title2", { opacity: 0 }, 0);
+      tl.set("#s-sheet", { y: 1160 }, 0);
+      tl.set("#s-coded", { clipPath: "inset(0px 0px 190px 0px round 44px 44px 44px 10px)" }, 0);
+      tl.set("#s-panel", { opacity: 0 }, 0);
+
+      // The coded bubble arrives.
+      tl.fromTo("#s-coded", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.45);
+
+      // Title 2: words go from light grey to ink, no position change.
+      tl.fromTo("#s-title span", { color: "#d1cfc5", opacity: 0 }, { opacity: 1, duration: 0.1, stagger: 0.08 }, 0.5);
+      tl.to("#s-title span:not(:last-child)", { color: "#141413", duration: 0.12, stagger: 0.08 }, 0.6);
+      tl.to("#s-title span:last-child", { color: "#0b7a55", duration: 0.12 }, 0.84);
+      tl.to("#s-title", { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, 3.55);
+
+      // Long-press on the bubble.
+      tl.fromTo("#s-finger", { x: 1140, y: 1700, scale: 1, opacity: 1 }, { x: 266, y: 760, duration: 0.45, ease: "expo.out" }, 1.6);
+      tl.to("#s-finger", { scale: 0.86, duration: 0.1, ease: "power2.in" }, 2.05);
+      tl.to("#s-coded", { scale: 0.985, duration: 0.12, ease: "power2.in" }, 2.05);
+      tl.to("#s-coded", { scale: 1, duration: 0.2, ease: "power2.out" }, 2.6);
+      tl.to("#s-finger", { scale: 1, duration: 0.12 }, 2.6);
+
+      // Action sheet rises.
+      tl.to("#s-scrim", { opacity: 1, duration: 0.3, ease: "power2.out" }, 2.6);
+      tl.fromTo("#s-sheet", { y: 1160, opacity: 1 }, { y: 0, opacity: 1, duration: 0.45, ease: "expo.out" }, 2.6);
+
+      // Tap Decode…
+      tl.to("#s-finger", { x: 230, y: 1240, duration: 0.4, ease: "power3.inOut" }, 2.95);
+      tl.to("#s-finger", { scale: 0.86, duration: 0.08 }, 3.4);
+      tl.to("#s-decoderow", { backgroundColor: "rgba(20,20,19,0.08)", duration: 0.08 }, 3.4);
+      tl.to("#s-finger", { scale: 1, duration: 0.1 }, 3.5);
+      tl.to("#s-sheet", { y: 1160, duration: 0.25, ease: "power3.in" }, 3.55);
+
+      // Dialog.
+      tl.fromTo("#s-dialog", { opacity: 0, scale: 0.94, filter: "blur(8px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, 3.75);
+      tl.fromTo("#s-title2", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power2.out" }, 3.8);
+      tl.to("#s-finger", { x: 460, y: 880, duration: 0.4, ease: "power3.inOut" }, 4.05);
+      tl.to("#s-finger", { scale: 0.86, duration: 0.08 }, 4.45);
+      tl.to("#d-keyfocus", { opacity: 1, duration: 0.1 }, 4.5);
+      tl.to("#s-finger", { scale: 1, duration: 0.1 }, 4.55);
+      tl.to("#s-finger", { x: 840, y: 1050, duration: 0.45, ease: "power3.inOut" }, 4.75);
+      tl.to("#s-finger", { scale: 0.86, duration: 0.08 }, 5.2);
+      tl.to("#d-decode", { backgroundColor: "rgba(20,20,19,0.08)", duration: 0.08 }, 5.2);
+      tl.to("#s-finger", { scale: 1, duration: 0.1 }, 5.3);
+      tl.to("#s-dialog", { opacity: 0, scale: 0.96, filter: "blur(8px)", duration: 0.22, ease: "power2.in" }, 5.35);
+      tl.to("#s-scrim", { opacity: 0, duration: 0.3 }, 5.4);
+      tl.to("#s-finger", { x: 1000, y: 1780, opacity: 0, duration: 0.4, ease: "power3.in" }, 5.4);
+
+      // The bubble opens its "Decoded on this device" panel and the letters roll back. Payoff.
+      tl.to("#s-coded", { clipPath: "inset(0px 0px 0px 0px round 44px 44px 44px 10px)", duration: 0.35, ease: "power2.inOut" }, 5.55);
+      tl.to("#s-panel", { opacity: 1, duration: 0.2 }, 5.6);
+      tl.to("#s-title2", { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, 7.1);
+
+      // Zoom through the decoded text into the Cipher tab.
+      tl.to("#s-zoom", { scale: 3.4, duration: 0.6, ease: "power3.in", transformOrigin: "1064px 649px" }, 7.4);
+      tl.to("#s-zoom", { filter: "blur(10px)", duration: 0.3, ease: "power2.in" }, 7.7);
+
+      render(0);
+      window.__timelines["sam"] = tl;
+    })();
+  </script>
+</template>

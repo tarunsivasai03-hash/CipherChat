@@ -1,0 +1,36 @@
+{
+  "brand": "CipherChat",
+  "tagline": "Chat. Cipher. Honestly.",
+  "brief": "An Android messenger with a playful educational cipher mode and ordinary chat, upfront about what is and is not secure. Honest, clever, friendly, trustworthy.",
+  "adjectives": ["honest", "clever", "friendly", "trustworthy"],
+  "criteria": "Distinct from padlock/shield/bubble-icon messengers, readable at 16 px, works in one colour, friendly but credible.",
+  "industry": "consumer-app",
+  "nav": ["Features", "Ciphers", "Security", "Download"],
+  "brand_color": "#0B7A55",
+  "tile_color": "#111513",
+  "greyscale": false,
+  "final": true,
+  "designer": "CipherChat",
+  "round": 2,
+  "concepts": [
+    {
+      "name": "Twin Bubbles",
+      "symbol": "symbol/cipherchat-symbol-mono-0b7a55.svg",
+      "lockup": "lockups/cipherchat-horizontal-mono-0b7a55.svg",
+      "stacked": "lockups/cipherchat-stacked-mono-0b7a55.svg",
+      "avatar": "symbol/cipherchat-symbol-mono-0b7a55.svg",
+      "symbol_on_tile": "symbol/cipherchat-symbol-reversed-mono-2ecc8f.svg",
+      "symbol_on_dark": "symbol/cipherchat-symbol-reversed-mono-2ecc8f.svg",
+      "lockup_on_dark": "lockups/cipherchat-horizontal-mono-2ecc8f.svg",
+      "stacked_on_dark": "lockups/cipherchat-stacked-mono-2ecc8f.svg",
+      "idea": "Two chat bubbles, one rotated 180 degrees about the other: ROT13 as a shape. Apply it twice and you get yourself back.",
+      "rationale": [
+        "Not a padlock, shield or bubble-plus-icon: a chat mark that is also a cipher idea",
+        "One construction (circle + one sharp corner), rotated once; the overlap is a real hole",
+        "The i in the wordmark reuses the bubble, tying symbol and name together",
+        "Emerald on charcoal (8.9:1) in the app; Deep Emerald on light (5.3:1)"
+      ]
+    }
+  ],
+  "recommendation": "Use Twin Bubbles as the app icon (emerald on charcoal), with the horizontal lockup in headers and the stacked lockup for store and social."
+}

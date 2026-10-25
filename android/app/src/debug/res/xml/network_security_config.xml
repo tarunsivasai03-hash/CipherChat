@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DEBUG BUILDS ONLY: allow cleartext HTTP so the app can reach a dev backend on the emulator host
+     (10.0.2.2) or a LAN IP. TLS verification stays on for HTTPS; this file is not part of release builds. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

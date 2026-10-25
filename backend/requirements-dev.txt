@@ -1,0 +1,4 @@
+-r requirements.txt
+pytest>=8.0
+requests>=2.31      # live smoke-test client only
+websocket-client>=1.7  # live smoke-test client only

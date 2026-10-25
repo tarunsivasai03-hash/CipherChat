@@ -1,0 +1,21 @@
+.env
+*.db
+*.db-wal
+*.db-shm
+*.jks
+*.keystore
+keystore.properties
+local.properties
+.idea/
+.gradle/
+build/
+.venv/
+__pycache__/
+instance/
+
+# Video tooling output (HyperFrames snapshots, QA frames, check reports)
+.hyperframes/
+node_modules/
+branding/cipherchat-promo/qa/
+branding/cipherchat-promo/check*.json
+branding/cipherchat-promo/check*.err

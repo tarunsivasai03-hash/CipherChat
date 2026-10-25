@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- CipherChat "Twin Bubbles" mark (branding/logo/masters/cipherchat-symbol.svg), scaled to sit inside the
+     66dp adaptive-icon safe zone. Used for the coloured and the themed (monochrome) icon. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.29"
+        android:scaleY="0.29"
+        android:translateX="16.88"
+        android:translateY="16.88">
+        <path
+            android:fillColor="#FF2ECC8F"
+            android:fillType="evenOdd"
+            android:pathData="M44.01,152.02 L44.01,96.02 A56,56 0 0 1 100.01,40.02 A56,56 0 0 1 156.01,96.02 A56,56 0 0 1 100.01,152.02 Z M211.99,103.98 L211.99,159.98 A56,56 0 0 1 155.99,215.98 A56,56 0 0 1 99.99,159.98 A56,56 0 0 1 155.99,103.98 Z" />
+    </group>
+</vector>

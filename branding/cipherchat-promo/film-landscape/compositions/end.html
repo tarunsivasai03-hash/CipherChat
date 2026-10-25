@@ -1,0 +1,66 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #111513; font-family: "Roboto", sans-serif; color: #e4eae6; }
+    .e-blob { position: absolute; border-radius: 50%; }
+    #e-mark { position: absolute; left: 810px; top: 270px; width: 300px; height: 300px; overflow: visible; }
+    #e-word { position: absolute; left: 680px; top: 610px; width: 560px; height: 107px; }
+    #e-tag { position: absolute; left: 0; top: 760px; width: 1920px; text-align: center; font-size: 54px; font-weight: 500; letter-spacing: -0.01em; }
+    #e-tag span { display: inline-block; margin: 0 0.12em; }
+    #e-tag .acc { color: #2ecc8f; }
+  </style>
+
+  <div id="root" data-composition-id="end" data-width="1920" data-height="1080">
+    <div class="e-blob" id="e-b1" style="left:-200px;top:-560px;width:1400px;height:1400px;background:radial-gradient(circle,rgba(20,81,59,0.55),rgba(20,81,59,0) 70%)"></div>
+    <div class="e-blob" id="e-b2" style="left:1100px;top:200px;width:1300px;height:1300px;background:radial-gradient(circle,rgba(44,53,48,0.9),rgba(44,53,48,0) 70%)"></div>
+    <div class="e-blob" style="left:200px;top:520px;width:1000px;height:1000px;background:radial-gradient(circle,rgba(46,204,143,0.16),rgba(46,204,143,0) 70%)"></div>
+
+    <svg id="e-mark" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="e-clip1"><path id="e-c1" d="M44.01,152.02 L44.01,96.02 A56,56 0 0 1 100.01,40.02 A56,56 0 0 1 156.01,96.02 A56,56 0 0 1 100.01,152.02 Z" /></clipPath>
+      </defs>
+      <path fill="#2ecc8f" d="M44.01,152.02 L44.01,96.02 A56,56 0 0 1 100.01,40.02 A56,56 0 0 1 156.01,96.02 A56,56 0 0 1 100.01,152.02 Z" />
+      <path id="e-p2" fill="#2ecc8f" d="M44.01,152.02 L44.01,96.02 A56,56 0 0 1 100.01,40.02 A56,56 0 0 1 156.01,96.02 A56,56 0 0 1 100.01,152.02 Z" />
+      <!-- The overlap becomes a hole, as in the master (evenodd), fading in late in the swing. -->
+      <g clip-path="url(#e-clip1)">
+        <path id="e-hole" fill="#111513" opacity="0" d="M44.01,152.02 L44.01,96.02 A56,56 0 0 1 100.01,40.02 A56,56 0 0 1 156.01,96.02 A56,56 0 0 1 100.01,152.02 Z" />
+      </g>
+    </svg>
+
+    <img id="e-word" src="assets/wordmark-emerald.svg" alt="CipherChat" />
+    <div id="e-tag"><span>Chat</span><span>in</span><span class="acc">code.</span><span>Just</span><span>for</span><span>fun.</span></div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const DUR = 3.8;
+      const swingEase = gsap.parseEase("power2.inOut");
+      const p2 = document.getElementById("e-p2");
+      const hole = document.getElementById("e-hole");
+      function render(t) {
+        const u = Math.max(0, Math.min(1, t / 0.6));
+        const a = 180 * swingEase(u);
+        const rot = "rotate(" + a.toFixed(3) + " 128 128)";
+        p2.setAttribute("transform", rot);
+        hole.setAttribute("transform", rot);
+        const h = Math.max(0, Math.min(1, (a - 110) / 70));
+        hole.setAttribute("opacity", (h * h * (3 - 2 * h)).toFixed(4));
+      }
+      const proxy = { t: 0 };
+      tl.to(proxy, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(proxy.t) }, 0);
+
+      tl.fromTo("#e-b1", { x: 120 }, { x: 220, duration: DUR, ease: "none" }, 0);
+      tl.fromTo("#e-b2", { y: -90 }, { y: -160, duration: DUR, ease: "none" }, 0);
+
+      // The landing gives a small kick.
+      tl.fromTo("#e-mark", { scale: 1 }, { scale: 1.05, duration: 0.08, ease: "power2.out", transformOrigin: "150px 150px" }, 0.6);
+      tl.to("#e-mark", { scale: 1, duration: 0.35, ease: "back.out(1.4)" }, 0.68);
+
+      tl.fromTo("#e-word", { clipPath: "inset(0px 100% 0px 0px)" }, { clipPath: "inset(0px 0% 0px 0px)", duration: 0.4, ease: "power2.inOut" }, 0.6);
+      tl.fromTo("#e-tag span", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.045, ease: "power2.out" }, 0.9);
+
+      render(0);
+      window.__timelines["end"] = tl;
+    })();
+  </script>
+</template>
